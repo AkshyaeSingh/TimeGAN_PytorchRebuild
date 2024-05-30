@@ -1,3 +1,4 @@
+# main.py
 import argparse
 import numpy as np
 
@@ -5,7 +6,6 @@ import numpy as np
 from run import train, test
 # 2. Data loading
 from data_loading import real_data_loading, sine_data_generation
-
 
 def main(opt):
     # Data loading
@@ -24,7 +24,6 @@ def main(opt):
     else:
         train(opt, ori_data)
         test(opt, ori_data)
-
 
 if __name__ == '__main__':
     """Main function for timeGAN experiments.
