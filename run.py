@@ -62,17 +62,6 @@ def train(opt, ori_data):
     # Save trained networks
     model.save_trained_networks()
 
-# run.py
-import numpy as np
-import timegan
-from metrics.discriminative_metrics import discriminative_score_metrics
-from metrics.predictive_metrics import predictive_score_metrics
-from metrics.visualization_metrics import visualization
-from metrics.privacy_metrics import nearest_neighbor_distance_ratio, k_anonymity, l_diversity
-from utils import extract_time
-
-def train(opt, ori_data):
-    # ... [existing code] ...
 
 def test(opt, ori_data):
     print('Start Testing')
