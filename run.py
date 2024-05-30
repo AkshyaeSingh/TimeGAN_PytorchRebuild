@@ -62,6 +62,17 @@ def train(opt, ori_data):
     # Save trained networks
     model.save_trained_networks()
 
+# run.py
+import numpy as np
+import timegan
+from metrics.discriminative_metrics import discriminative_score_metrics
+from metrics.predictive_metrics import predictive_score_metrics
+from metrics.visualization_metrics import visualization
+from metrics.privacy_metrics import nearest_neighbor_distance_ratio, k_anonymity, l_diversity
+from utils import extract_time
+
+def train(opt, ori_data):
+    # ... [existing code] ...
 
 def test(opt, ori_data):
     print('Start Testing')
@@ -92,7 +103,6 @@ def test(opt, ori_data):
             print('discriminative_score iteration: ', i)
             temp_disc = discriminative_score_metrics(ori_data, gen_data)
             discriminative_score.append(temp_disc)
-
         metric_results['discriminative'] = np.mean(discriminative_score)
         print('Finish discriminative_score_metrics compute')
 
@@ -129,4 +139,4 @@ def test(opt, ori_data):
     visualization(ori_data, gen_data, 'tsne', opt.output_dir)
 
     # Print all metrics
-    print(metric_results)
+    print("Metric Results:", metric_results)
