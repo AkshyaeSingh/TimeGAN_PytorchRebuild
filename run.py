@@ -3,6 +3,7 @@ import timegan
 from metrics.discriminative_metrics import discriminative_score_metrics
 from metrics.predictive_metrics import predictive_score_metrics
 from metrics.visualization_metrics import visualization
+from metrics.privacy_metrics import nearest_neighbor_distance_ratio, k_anonymity, l_diversity
 from utils import extract_time
 
 
@@ -63,7 +64,6 @@ def train(opt, ori_data):
 
 
 def test(opt, ori_data):
-
     print('Start Testing')
     # Model Setting
     model = timegan.TimeGAN(opt, ori_data)
@@ -106,9 +106,27 @@ def test(opt, ori_data):
         metric_results['predictive'] = np.mean(predictive_score)
         print('Finish predictive_score_metrics compute')
 
-    # 3. Visualization (PCA and tSNE)
+        # 3. Nearest Neighbor Distance Ratio (NNDR)
+        print('Start nearest_neighbor_distance_ratio')
+        nndr = nearest_neighbor_distance_ratio(ori_data, gen_data)
+        metric_results['nndr'] = nndr
+        print('Finish nearest_neighbor_distance_ratio compute')
+
+        # 4. K-Anonymity
+        print('Start k_anonymity')
+        k_anonym = k_anonymity(gen_data, k=5)
+        metric_results['k_anonymity'] = k_anonym
+        print('Finish k_anonymity compute')
+
+        # 5. L-Diversity
+        print('Start l_diversity')
+        l_div = l_diversity(gen_data, sensitive_attribute_idx=0, l=2)
+        metric_results['l_diversity'] = l_div
+        print('Finish l_diversity compute')
+
+    # 6. Visualization (PCA and tSNE)
     visualization(ori_data, gen_data, 'pca', opt.output_dir)
     visualization(ori_data, gen_data, 'tsne', opt.output_dir)
 
-    # Print discriminative and predictive scores
+    # Print all metrics
     print(metric_results)
