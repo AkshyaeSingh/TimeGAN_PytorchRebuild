@@ -12,7 +12,12 @@ def nearest_neighbor_distance_ratio(real_data, synthetic_data):
     distances_real, _ = nbrs_real.kneighbors(real_data)
     distances_synthetic, _ = nbrs_synthetic.kneighbors(synthetic_data)
 
-    nndr = np.mean(distances_real) / np.mean(distances_synthetic)
+    mean_real = np.mean(distances_real)
+    mean_synthetic = np.mean(distances_synthetic)
+    
+    if mean_synthetic == 0:
+        return float('inf')  # or some large number to indicate poor privacy
+    nndr = mean_real / mean_synthetic
     return nndr
 
 def k_anonymity(synthetic_data, k=5):
